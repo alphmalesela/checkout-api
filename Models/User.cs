@@ -8,6 +8,10 @@ public class User
     [Required]
     public required string Username { get; set; }
 
-    [Required]
-    public required string ApiKey { get; set; }
+    public string ApiKey { get; } = GenerateApiKey();
+
+    private static string GenerateApiKey()
+    {
+        return Guid.NewGuid().ToString(); // Generates a unique API Key
+    }
 }
