@@ -7,17 +7,19 @@ public class CheckoutContext : DbContext
     public DbSet<CheckoutItem> CheckoutItems { get; set; }
     public DbSet<Checkout> Checkouts { get; set; }
 
-    public string DbPath { get; }
+    // public string DbPath { get; }
 
-    public CheckoutContext()
+    public CheckoutContext(DbContextOptions<CheckoutContext> options)
+    : base(options)
+    { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        DbPath = System.IO.Path.Join(path, "checkout.db");
-    }
+        base.OnModelCreating(modelBuilder);
 
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
+        // Option 2: Configure the property using Fluent API
+        modelBuilder.Entity<User>()
+            .Property(u => u.ApiKey)
+            .HasColumnName("ApiKey");
+    }
 }

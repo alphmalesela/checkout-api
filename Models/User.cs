@@ -8,7 +8,7 @@ public class User
     [Required]
     public required string Username { get; set; }
 
-    public string ApiKey { get; } = GenerateApiKey();
+    public string ApiKey { get; set; } = GenerateApiKey();
 
     private static string GenerateApiKey()
     {
