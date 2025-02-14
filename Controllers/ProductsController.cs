@@ -78,16 +78,21 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutProduct(long id, UpdateProductRequest productRequest)
+    public async Task<IActionResult> PutProduct(long id, [FromBody] UpdateProductRequest request)
     {
         var user = HttpContext.Items["User"] as User;
 
-        if (id != productRequest.Id)
+        if (id != request.Id)
         {
             return BadRequest();
         }
 
-        _context.Entry(productRequest).State = EntityState.Modified;
+        var product = await _context.Products.Where(p => p.Id == id && p.UserId == user!.Id).FirstAsync();
+        if (product == null) return NotFound();
+
+        product.Name = request.Name!;
+        product.Price = request.Price;
+        product.Quantity = request.Quantity;
 
         try
         {
@@ -95,7 +100,7 @@ public class ProductsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            var product = await _context.Products.FindAsync(id);
+            product = await _context.Products.FindAsync(id);
             if (product == null || product.UserId != user!.Id)
             {
                 return NotFound(new { error = "Product not found or unauthorized" });
