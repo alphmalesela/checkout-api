@@ -10,13 +10,13 @@ public class CheckoutItem
     public int CheckoutId { get; set; }
 
     [ForeignKey("CheckoutId")]
-    public required Checkout Checkout { get; set; }
+    public Checkout? Checkout { get; set; }
 
     [Required]
     public int ProductId { get; set; }
 
     [ForeignKey("ProductId")]
-    public required Product Product { get; set; }
+    public Product? Product { get; set; }
 
     [Required]
     public int Quantity { get; set; }

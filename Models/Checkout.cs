@@ -9,14 +9,14 @@ public class Checkout
     public int Id { get; set; }
 
     [Required]
-    public int UserId { get; set; } // User who initiated checkout
+    public int UserId { get; set; }
 
     [ForeignKey("UserId")]
-    public required User User { get; set; }
+    public User? User { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public bool IsCompleted { get; set; } = false; // False until checkout is finalized
+    public bool IsCompleted { get; set; } = false;
 
     public ICollection<CheckoutItem> Items { get; set; } = new List<CheckoutItem>();
 }

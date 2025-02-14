@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-[ApiKeyAuth]
+
 [ApiController]
 [Route("api/products")]
 public class ProductsController : ControllerBase
