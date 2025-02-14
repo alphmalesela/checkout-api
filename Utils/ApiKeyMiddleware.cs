@@ -42,6 +42,7 @@ public class ApiKeyMiddleware
             return;
         }
 
+        context.Items["User"] = user;
         // API Key is valid, proceed with request
         await _next(context);
     }
